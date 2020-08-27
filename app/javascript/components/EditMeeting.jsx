@@ -18,32 +18,8 @@ class EditMeeting extends React.Component {
   }
 
   componentDidMount() {
-    const url = "/api/v1/users/index";
+    const url = "/api/v1/meetings/" + this.props.match.params.meetingId;
     fetch(url)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then((response) => this.setState({ users: response }))
-      .then((data) => {
-        let rec = this.state.users.filter((user) => {
-          return user.role_id !== 1;
-        });
-        let can = this.state.users.filter((user) => {
-          return user.role_id !== 2;
-        });
-        this.setState((state) => {
-          state.candidates = can;
-          state.recruiters = rec;
-          return state;
-        });
-      })
-      .catch(() => this.props.history.push("/"));
-
-    const url1 = "/api/v1/meetings/" + this.props.match.params.meetingId;
-    fetch(url1)
       .then((response) => {
         if (response.ok) {
           return response.json();
