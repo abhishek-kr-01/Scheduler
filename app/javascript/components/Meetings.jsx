@@ -17,6 +17,15 @@ class Meetings extends React.Component {
         this.setState({ meetings: res1, users: res2 });
         // console.log(res2);
       })
+      .then((data) => {
+        let all = this.state.meetings.filter((meeting) => {
+          return moment(meeting.end_time) >= moment();
+        });
+        this.setState((state) => {
+          state.meetings = all;
+          return state;
+        });
+      })
       .catch(() => this.props.history.push("/"));
   }
 
@@ -53,7 +62,7 @@ class Meetings extends React.Component {
 
   render() {
     const { meetings } = this.state;
-    const allMeetings = meetings.map((meeting, index) => (
+    const scheduledMeetings = meetings.map((meeting, index) =>(
       <div key={index} className="col-md-6 col-lg-4">
         <div className="card mb-3">
           <div className="card-body">
@@ -130,7 +139,8 @@ class Meetings extends React.Component {
     const noMeeting = (
       <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
         <h4>
-          No meetings yet.<Link to="/meeting">Schedule one</Link>
+          No meetings. 
+          <Link to="/meeting">  Schedule one</Link>
         </h4>
       </div>
     );
@@ -151,7 +161,7 @@ class Meetings extends React.Component {
               </Link>
             </div>
             <div className="row">
-              {meetings.length > 0 ? allMeetings : noMeeting}
+              {meetings.length > 0 ? scheduledMeetings : noMeeting}
             </div>
             <Link to="/" className="btn btn-link">
               Home
