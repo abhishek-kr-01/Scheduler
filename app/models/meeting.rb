@@ -15,12 +15,12 @@ class Meeting < ApplicationRecord
 		candidate_meetings = overlaps_util(Meeting.where(candidate_id: candidate_id))
 				
 		if candidate_meetings.count >= 1
-			errors.add(:errors, "conflicting time. candidate not available")
+			errors.add(:errors, "Conflicting time. Candidate not available")
 		end
 
 		recruiter_meetings = overlaps_util(Meeting.where(recruiter_id: recruiter_id))		
 		if recruiter_meetings.count >= 1
-			errors.add(:errors, "conflicting time. recruiter not available")
+			errors.add(:errors, "Conflicting time. Recruiter not available")
 		end
 
 	end
