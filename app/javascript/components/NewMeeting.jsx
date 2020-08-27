@@ -118,8 +118,10 @@ class NewMeeting extends React.Component {
 
               <div className="form-group">
                 <label htmlFor="start_time">Start Time</label>
-                <input
-                  type = "datetime-local"
+                <DateTimePicker
+                  min={new Date()}
+                  defaultValue={this.state.start_time}
+                  format={"yyyy-MM-dd HH:mm"}
                   name="start_time"
                   id="start_time"
                   className="form-control"
@@ -130,8 +132,10 @@ class NewMeeting extends React.Component {
 
               <div className="form-group">
                 <label htmlFor="end_time">End Time</label>
-                <input
-                  type="datetime-local"
+                <DateTimePicker
+                  min={new Date()}
+                  defaultValue={this.state.start_time}
+                  format={"yyyy-MM-dd HH:mm"}
                   name="end_time"
                   id="end_time"
                   className="form-control"
