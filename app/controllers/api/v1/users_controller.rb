@@ -3,19 +3,13 @@ module Api
 		class UsersController < ApplicationController
 
 			def index
-				users = User.order('created_at ASC');
-				render json: {status: 'SUCCESS',
-								message: 'Loaded users list',
-								data: users},
-								status: :ok
+				users = User.all.order(id: :asc)
+				render json: users
 			end
 
 			def show
 				user = User.find(params[:id])
-				render json: {status: 'SUCCESS',
-								message: 'Loaded user',
-								data: user},
-								status: :ok
+				render json: user
 			end
 
 			def update
