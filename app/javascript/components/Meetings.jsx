@@ -80,7 +80,7 @@ class Meetings extends React.Component {
                     </li>
                   </div>
                 ) : (
-                  <h5 className="card-title">{}</h5>
+                  null
                 )
               )}
             </div>
@@ -107,12 +107,12 @@ class Meetings extends React.Component {
             <div className="borderless">
               <li className="list-group-item">
                 <strong>Start: </strong>
-                {moment(meeting.start_time).format("MMMM Do YYYY, HH:mm")}
+                {moment.utc(meeting.start_time).format("MMMM Do YYYY, HH:mm")}
               </li>
 
               <li className="list-group-item">
                 <strong>End: </strong>
-                {moment(meeting.end_time).format("MMMM Do YYYY, HH:mm")}
+                {moment.utc(meeting.end_time).format("MMMM Do YYYY, HH:mm")}
               </li>
             </div>
 

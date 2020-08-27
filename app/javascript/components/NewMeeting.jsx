@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { DateTimePicker } from '@progress/kendo-react-dateinputs';
 import { provideIntlService } from '@progress/kendo-react-intl';
 import '@progress/kendo-theme-default/dist/all.css';
+import moment from "moment";
 
 class NewMeeting extends React.Component {
   constructor(props) {
@@ -118,10 +119,8 @@ class NewMeeting extends React.Component {
 
               <div className="form-group">
                 <label htmlFor="start_time">Start Time</label>
-                <DateTimePicker
-                  min={new Date()}
-                  defaultValue={this.state.start_time}
-                  format={"yyyy-MM-dd HH:mm"}
+                <input
+                  type = "datetime-local"
                   name="start_time"
                   id="start_time"
                   className="form-control"
@@ -132,10 +131,8 @@ class NewMeeting extends React.Component {
 
               <div className="form-group">
                 <label htmlFor="end_time">End Time</label>
-                <DateTimePicker
-                  min={new Date()}
-                  defaultValue={this.state.start_time}
-                  format={"yyyy-MM-dd HH:mm"}
+                <input
+                  type="datetime-local"
                   name="end_time"
                   id="end_time"
                   className="form-control"
