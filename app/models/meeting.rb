@@ -26,8 +26,11 @@ class Meeting < ApplicationRecord
 	end
 
 	def overlaps_util(meetings)
-		meetings = meetings.where( :start_time => ["start_time IN (?)",(start_time.to_datetime)..(end_time.to_datetime-1.seconds)] ) 
-				.or	(meetings.where( :end_time => ["end_time IN (?)",(start_time.to_datetime + 1.seconds)..(end_time.to_datetime)]))
+		# meetings = meetings.where( :start_time => ["start_time IN (?)",(start_time.to_datetime)..(end_time.to_datetime-1.seconds)] ) 
+		# 		.or	(meetings.where( :end_time => ["end_time IN (?)",(start_time.to_datetime + 1.seconds)..(end_time.to_datetime)]))
+		# return meetings
+
+		meetings = meetings.where("(? BETWEEN start_time AND end_time OR ? BETWEEN start_time AND end_time)", self.start_time, self.end_time)
 		return meetings
 
 	end
@@ -49,7 +52,6 @@ class Meeting < ApplicationRecord
 	def schedule_update
 	
 		candidate_meetings = overlaps_util(Meeting.where.not(id: id).where(candidate_id: candidate_id))
-				
 		if candidate_meetings.count >= 1
 			errors.add(:errors, "conflicting time. candidate not available")
 		end
