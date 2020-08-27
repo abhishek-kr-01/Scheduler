@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { DateTimePicker } from '@progress/kendo-react-dateinputs';
 import { provideIntlService } from '@progress/kendo-react-intl';
 import '@progress/kendo-theme-default/dist/all.css';
-import moment from "moment";
 
 class NewMeeting extends React.Component {
   constructor(props) {

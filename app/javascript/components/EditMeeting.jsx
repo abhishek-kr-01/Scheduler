@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { DateTimePicker } from "@progress/kendo-react-dateinputs";
 import { provideIntlService } from "@progress/kendo-react-intl";
 import "@progress/kendo-theme-default/dist/all.css";
+import moment from "moment";
 
 class EditMeeting extends React.Component {
   constructor(props) {
@@ -10,6 +11,7 @@ class EditMeeting extends React.Component {
     this.state = {
       start_time: new Date(),
       end_time: new Date(),
+      meeting: [],
     };
 
     this.onChange = this.onChange.bind(this);
@@ -19,27 +21,17 @@ class EditMeeting extends React.Component {
 
   componentDidMount() {
     const url = "/api/v1/meetings/" + this.props.match.params.meetingId;
-    fetch(url)
+    fetch(url,{method: "GET"})
       .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error("Network response was not ok.");
-      })
-      .then((response) => {
-        this.setState((state) => {
-          start_time: provideIntlService(this).parseDate(
-            response.start_time,
-            "yyyy-MM-dd HH:mm"
-          );
-          end_time: provideIntlService(this).parseDate(
-            response.end_time,
-            "yyyy-MM-dd HH:mm"
-          );
-        });
-      })
-      .catch((err) => {
-        console.error("err", err);
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error("Network response was not ok.");
+        })
+      .then((response) => this.setState({ meeting: response }))
+      .catch((error) => {
+        console.error(error);
+        return { name: "network error", description: "" };
       });
   }
   processResponse(response) {
@@ -95,14 +87,12 @@ class EditMeeting extends React.Component {
         <div className="row">
           <div className="col-sm-12 col-lg-6 offset-lg-3">
             <h1 className="font-weight-normal mb-5">Update meeting</h1>
-
             <form onSubmit={this.onSubmit}>
               <div className="form-group">
                 <label htmlFor="start_time">Start Time</label>
-                <DateTimePicker
-                  min={new Date()}
-                  defaultValue={this.state.start_time}
-                  format={"yyyy-MM-dd HH:mm"}
+                <input
+                  type="datetime-local"
+                  defaultValue={this.state.meeting.start_time}
                   name="start_time"
                   id="start_time"
                   className="form-control"
@@ -113,10 +103,9 @@ class EditMeeting extends React.Component {
 
               <div className="form-group">
                 <label htmlFor="end_time">End Time</label>
-                <DateTimePicker
-                  min={new Date()}
-                  defaultValue={this.state.end_time}
-                  format={"yyyy-MM-dd HH:mm"}
+                <input
+                  type="datetime-local"
+                  defaultValue={this.state.meeting.end_time}
                   name="end_time"
                   id="end_time"
                   className="form-control"
@@ -124,15 +113,34 @@ class EditMeeting extends React.Component {
                   onChange={this.onChange}
                 />
               </div>
-
               <button type="submit" className="btn custom-button mt-3">
                 Confirm
               </button>
               <Link to="/meetings" className="btn btn-link mt-3">
                 Back to all meetings
               </Link>
+
+              <div className="card mt-3">
+                <h3 className="font-weight-normal ml-4 mt-2 mb-0">Current timings</h3>
+                   <div className="card-body">
+                    <li className="list-group-item">
+                      <strong>Start: </strong>
+                      {moment.utc(this.state.meeting.start_time).format("MMMM Do YYYY, HH:mm")}
+                    </li>
+
+                    <li className="list-group-item">
+                      <strong>End: </strong>
+                      {moment.utc(this.state.meeting.end_time).format("MMMM Do YYYY, HH:mm")}
+                    </li>
+                  </div>
+                </div>
+
             </form>
+
+            
+
           </div>
+          
         </div>
       </div>
     );
