@@ -111,7 +111,7 @@ class Meetings extends React.Component {
               </li>
 
               <li className="list-group-item">
-                <strong>Start: </strong>
+                <strong>End: </strong>
                 {moment(meeting.end_time).format("MMMM Do YYYY, HH:mm")}
               </li>
             </div>
