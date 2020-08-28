@@ -6,7 +6,7 @@ Interview schedular :
 
 * **Ruby** : 2.7.1
 * **Rails** : 6.0.3.2
-* [React JS]
+* **React JS**
 * [Bootstrap](https://github.com/abhishek-kr-01/scheduler/blob/master/app/views/layouts/application.html.erb) for Responsive layouts (mobile first!)
 
 ### Heroku
