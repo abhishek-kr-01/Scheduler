@@ -1,12 +1,17 @@
 class Api::V1::MeetingsController < ApplicationController
-	def index	
-		meeting = Meeting.all.order(created_at: :desc)
-		render json: meeting
+
+	#controller to fetch all meetings
+	def index
+		meetings = Meeting.order(start_time: :asc);
+        list = []
+        meetings.each do |meet|
+            list << meet.attributes.merge({"candidate_id" => meet.candidate, "recruiter_id" => meet.recruiter })
+        end
+        render json: {status: 200, message:'Loaded Meetings', data: list},status: :ok
 	end
 
 	def create
 		meeting = Meeting.new(meeting_params)
-		# meeting = Meeting.create!(meeting_params)
 		if meeting.save
 			render json: {status: 200,
 							message: "Success",
@@ -16,11 +21,14 @@ class Api::V1::MeetingsController < ApplicationController
 							message: "Bad Request",
 						 	data:meeting.errors}
 		end
+
 	end
 
 	def show
-		if meeting
-	      render json: meeting
+		list = []
+		list << meeting.attributes.merge({"candidate_id" => meeting.candidate, "recruiter_id" => meeting.recruiter})
+        if meeting
+	      render json: {status: 200, message:'Loaded meeting details', data: list},status: :ok
 	    else
 	      render json: meeting.errors
 	  	end

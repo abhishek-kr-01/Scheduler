@@ -5,18 +5,20 @@ import { provideIntlService } from "@progress/kendo-react-intl";
 class Meetings extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { meetings: [], users: [] };
+    this.state = { meetings: [] };
   }
 
   componentDidMount() {
-    Promise.all([fetch("/api/v1/meetings/index"), fetch("/api/v1/users/index")])
-      .then(([res1, res2]) => {
-        return Promise.all([res1.json(), res2.json()]);
+    const url = "/api/v1/meetings/index";
+    fetch(url, { method: "GET" })
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Network response was not ok.");
       })
-      .then(([res1, res2]) => {
-        this.setState({ meetings: res1, users: res2 });
-        // console.log(res2);
-      })
+      .then((response) => this.setState({ meetings: response.data }))
+      //To remove past meetings
       .then((data) => {
         let all = this.state.meetings.filter((meeting) => {
           return moment(meeting.end_time) >= moment();
@@ -30,7 +32,6 @@ class Meetings extends React.Component {
   }
 
   deleteMeeting = (id, e) => {
-    // console.log('go to then');
     const url = `/api/v1/meetings/${id}`;
     const token = document.querySelector('meta[name="csrf-token"]').content;
     fetch(url, {
@@ -46,8 +47,8 @@ class Meetings extends React.Component {
         }
         throw new Error("Network response was not ok.");
       })
+      // To update state after deletion
       .then((data) => {
-        // console.log('go to then');
         let all = this.state.meetings.filter((meeting) => {
           return id !== meeting.id;
         });
@@ -62,46 +63,34 @@ class Meetings extends React.Component {
 
   render() {
     const { meetings } = this.state;
-    const scheduledMeetings = meetings.map((meeting, index) =>(
+    const scheduledMeetings = meetings.map((meeting, index) => (
       <div key={index} className="col-md-6 col-lg-4">
         <div className="card mb-3">
           <div className="card-body">
             <div className="borderless">
-              {this.state.users.map((user) =>
-                user.id === meeting.candidate_id ? (
-                  <div>
-                    <li className="list-group-item">
-                      <strong>Candidate: </strong>
-                      {user.name}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Email: </strong>
-                      {user.email}
-                    </li>
-                  </div>
-                ) : (
-                  null
-                )
-              )}
+              <div>
+                <li className="list-group-item">
+                  <strong>Candidate: </strong>
+                  {meeting.candidate_id.name}
+                </li>
+                <li className="list-group-item">
+                  <strong>Email: </strong>
+                  {meeting.candidate_id.email}
+                </li>
+              </div>
             </div>
 
             <div className="borderless">
-              {this.state.users.map((user) =>
-                user.id === meeting.recruiter_id ? (
-                  <div>
-                    <li className="list-group-item">
-                      <strong>Recruiter: </strong>
-                      {user.name}
-                    </li>
-                    <li className="list-group-item">
-                      <strong>Email: </strong>
-                      {user.email}
-                    </li>
-                  </div>
-                ) : (
-                  <h5 className="card-title">{}</h5>
-                )
-              )}
+              <div>
+                <li className="list-group-item">
+                  <strong>Recruiter: </strong>
+                  {meeting.recruiter_id.name}
+                </li>
+                <li className="list-group-item">
+                  <strong>Email: </strong>
+                  {meeting.recruiter_id.email}
+                </li>
+              </div>
             </div>
 
             <div className="borderless">
@@ -139,8 +128,8 @@ class Meetings extends React.Component {
     const noMeeting = (
       <div className="vw-100 vh-50 d-flex align-items-center justify-content-center">
         <h4>
-          No meetings. 
-          <Link to="/meeting">  Schedule one</Link>
+          No meetings.
+          <Link to="/meeting"> Schedule one</Link>
         </h4>
       </div>
     );
