@@ -1,24 +1,43 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Interview schedular :
 
-Things you may want to cover:
+### Stack
 
-* Ruby version
+* [Ruby 2.7.1]
+* [Rails 6.0.3.2]
+* [React JS]
+* [Bootstrap](https://github.com/abhishek-kr-01/scheduler/blob/master/app/views/layouts/application.html.erb) for Responsive layouts (mobile first!)
 
-* System dependencies
+### Heroku
 
-* Configuration
+* [Rails Appointment Scheduler](https://interview-scheduler-010.herokuapp.com/)
 
-* Database creation
+**To run on your local machine:**
 
-* Database initialization
+* Clone the repo and cd into the project folder.
+  ```sh
+  $ git clone https://github.com/abhishek-kr-01/scheduler.git
+  $ cd schedular
+  ```
 
-* How to run the test suite
+* Check your ruby and rails versions and then run :
+  ```sh
+  $ bundle install
+  ```
 
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* To start the server run :
+  ```sh
+  $ rails s
+  ```
+## API Endpoints :
+  Base url : http://localhost:3000/api/v1/
+  *  GET          /api/v1/meetings                      (fetch all meetings)                                                            
+  * POST          /api/v1/meetings                      (create new meeting)                                                             
+  * GET           /api/v1/meetings/:id                  (fetch single meeting)                                                     
+  * PUT           /api/v1/meetings/:id                  (update single meeting)                                                   
+  * DELETE        /api/v1/meetings/:id                  (delete single meeting)                                                           
+  
+## Versions :
+* **Ruby** : 2.7.1
+* **Rails** : 6.0.3.2
