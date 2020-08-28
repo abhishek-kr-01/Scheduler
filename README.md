@@ -4,8 +4,8 @@ Interview schedular :
 
 ### Stack
 
-* [Ruby 2.7.1]
-* [Rails 6.0.3.2]
+* **Ruby** : 2.7.1
+* **Rails** : 6.0.3.2
 * [React JS]
 * [Bootstrap](https://github.com/abhishek-kr-01/scheduler/blob/master/app/views/layouts/application.html.erb) for Responsive layouts (mobile first!)
 
@@ -38,6 +38,3 @@ Interview schedular :
   * PUT           /api/v1/meetings/:id                  (update single meeting)                                                   
   * DELETE        /api/v1/meetings/:id                  (delete single meeting)                                                           
   
-## Versions :
-* **Ruby** : 2.7.1
-* **Rails** : 6.0.3.2
